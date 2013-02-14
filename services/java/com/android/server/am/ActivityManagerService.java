@@ -276,6 +276,9 @@ public final class ActivityManagerService extends ActivityManagerNative
     // devices.
     private boolean mShowDialogs = true;
 
+    private boolean mKeepAppListInit = false;
+    private HashSet<String> mKeepAppList;
+
     /**
      * Description of a request to start a new activity, which has been held
      * due to app switches being disabled.
@@ -12678,7 +12681,28 @@ public final class ActivityManagerService extends ActivityManagerNative
         boolean foregroundActivities = false;
         boolean interesting = false;
         BroadcastQueue queue;
-        if (app == TOP_APP) {
+ 
+            if (!mKeepAppListInit) {
+            mKeepAppListInit = true;
+            String keepAppProp = SystemProperties.get("sys.keep_apps", "");
+            if (keepAppProp.length() != 0) {
+                mKeepAppList = new HashSet<String>();
+                String[] keepApps = keepAppProp.split(",");
+                for (int i=0; i<keepApps.length; i++) {
+                    String keepApp=keepApps[i];
+                    mKeepAppList.add(keepApp);
+                }
+                Slog.i(TAG, "OOM sys.keep_apps = "+mKeepAppList);
+             }
+        }
+
+        if (mKeepAppList != null && mKeepAppList.contains(app.processName)) {
+            adj = ProcessList.FOREGROUND_APP_ADJ;
+            schedGroup = Process.THREAD_GROUP_DEFAULT;
+            app.adjType = "keep-app "+app.processName;
+            foregroundActivities = true;
+            interesting = true;            
+        } else if (app == TOP_APP) {
             // The last app on the list is the foreground app.
             adj = ProcessList.FOREGROUND_APP_ADJ;
             schedGroup = Process.THREAD_GROUP_DEFAULT;
