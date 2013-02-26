@@ -20,6 +20,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.provider.Settings;
 import android.util.AttributeSet;
 import android.util.Slog;
 import android.view.MotionEvent;
@@ -29,6 +30,8 @@ import com.android.systemui.R;
 import com.android.systemui.statusbar.GestureRecorder;
 
 public class NotificationPanelView extends PanelView {
+
+    private static final float STATUS_BAR_SETTINGS_FLIP_PERCENTAGE = 0.3f;  
 
     Drawable mHandleBar;
     int mHandleBarHeight;
@@ -92,12 +95,21 @@ public class NotificationPanelView extends PanelView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (PhoneStatusBar.SETTINGS_DRAG_SHORTCUT && mStatusBar.mHasFlipSettings) {
+            boolean flip = false;
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     mOkToFlip = getExpandedHeight() == 0;
+                    if (event.getX(0) > getWidth() * (1.0f - STATUS_BAR_SETTINGS_FLIP_PERCENTAGE) &&
+                        Settings.System.getInt(getContext().getContentResolver(),
+                               Settings.System.QS_QUICK_PULLDOWN, 0) != 0) {
+                    flip = true;
+             }
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
-                    if (mOkToFlip) {
+                    flip = true;
+                    break;
+            }
+                  if (mOkToFlip) {
                         float miny = event.getY(0);
                         float maxy = miny;
                         for (int i=1; i<event.getPointerCount(); i++) {
@@ -114,9 +126,6 @@ public class NotificationPanelView extends PanelView {
                             mOkToFlip = false;
                         }
                     }
-                    break;
-            }
         }
         return mHandleView.dispatchTouchEvent(event);
     }
-}
