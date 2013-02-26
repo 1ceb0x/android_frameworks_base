@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2012 The Android Open Source Project
+ * This code has been modified. Portions copyright (C) 2011, The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +32,7 @@ import com.android.systemui.statusbar.GestureRecorder;
 
 public class NotificationPanelView extends PanelView {
 
+<<<<<<< HEAD
     private static final float STATUS_BAR_SETTINGS_FLIP_PERCENTAGE = 0.3f;  
 
     Drawable mHandleBar;
@@ -39,6 +41,16 @@ public class NotificationPanelView extends PanelView {
     int mFingers;
     PhoneStatusBar mStatusBar;
     boolean mOkToFlip;
+=======
+    private static final float STATUS_BAR_SETTINGS_FLIP_PERCENTAGE = 0.3f;
+
+    private Drawable mHandleBar;
+    private float mHandleBarHeight;
+    private View mHandleView;
+    private int mFingers;
+    private PhoneStatusBar mStatusBar;
+    private boolean mOkToFlip;
+>>>>>>> upstream/jellybean-legacy
 
     public NotificationPanelView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -100,15 +112,23 @@ public class NotificationPanelView extends PanelView {
                 case MotionEvent.ACTION_DOWN:
                     mOkToFlip = getExpandedHeight() == 0;
                     if (event.getX(0) > getWidth() * (1.0f - STATUS_BAR_SETTINGS_FLIP_PERCENTAGE) &&
+<<<<<<< HEAD
                         Settings.System.getInt(getContext().getContentResolver(),
                                Settings.System.QS_QUICK_PULLDOWN, 0) != 0) {
                     flip = true;
              }
+=======
+                            Settings.System.getInt(getContext().getContentResolver(),
+                                    Settings.System.QS_QUICK_PULLDOWN, 0) != 0) {
+                        flip = true;
+                    }
+>>>>>>> upstream/jellybean-legacy
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
                     flip = true;
                     break;
             }
+<<<<<<< HEAD
                   if (mOkToFlip) {
                         float miny = event.getY(0);
                         float maxy = miny;
@@ -126,6 +146,25 @@ public class NotificationPanelView extends PanelView {
                             mOkToFlip = false;
                         }
                     }
+=======
+            if (mOkToFlip && flip) {
+                float miny = event.getY(0);
+                float maxy = miny;
+                for (int i=1; i<event.getPointerCount(); i++) {
+                    final float y = event.getY(i);
+                    if (y < miny) miny = y;
+                    if (y > maxy) maxy = y;
+                }
+                if (maxy - miny < mHandleBarHeight) {
+                    if (getMeasuredHeight() < mHandleBarHeight) {
+                        mStatusBar.switchToSettings();
+                    } else {
+                        mStatusBar.flipToSettings();
+                    }
+                    mOkToFlip = false;
+                }
+            }
+>>>>>>> upstream/jellybean-legacy
         }
         return mHandleView.dispatchTouchEvent(event);
     }

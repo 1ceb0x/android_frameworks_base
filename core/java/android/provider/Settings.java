@@ -1,6 +1,7 @@
 /*
  * Copyright (C) 2006 The Android Open Source Project
  * This code has been modified. Portions copyright (C) 2012, ParanoidAndroid Project.
+ * This code has been modified. Portions copyright (C) 2011, The CyanogenMod Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1591,6 +1592,24 @@ public final class Settings {
          */
         @Deprecated
         public static final String WIFI_STATIC_DNS2 = "wifi_static_dns2";
+        
+        /**
+         * Allows automatic retrieval of mms contents
+         * <p>Type: INT</p>
+         * 0 -- false
+         * 1 -- true
+         * @hide
+         */
+        public static final String MMS_AUTO_RETRIEVAL = "mms_auto_retrieval";
+        
+        /**
+         * Allows automatic retrieval of mms contents during roaming
+         * <p>Type: INT</p>
+         * 0 -- false
+         * 1 -- true
+         * @hide
+         */
+        public static final String MMS_AUTO_RETRIEVAL_ON_ROAMING = "mms_auto_on_roaming";
 
 
         /**
@@ -2040,19 +2059,6 @@ public final class Settings {
         public static final String ACCELEROMETER_ROTATION = "accelerometer_rotation";
 
         /**
-         * Control the type of rotation which can be performed using the accelerometer
-         * if ACCELEROMETER_ROTATION is enabled.
-         * Value is a bitwise combination of
-         * 1 = 0 degrees (portrait)
-         * 2 = 90 degrees (left)
-         * 4 = 180 degrees (inverted portrait)
-         * 8 = 270 degrees (right)
-         * Setting to 0 is effectively orientation lock
-         * @hide
-         */
-        public static final String ACCELEROMETER_ROTATION_ANGLES = "accelerometer_rotation_angles";
-
-        /**
          * Default screen rotation when no other policy applies.
          * When {@link #ACCELEROMETER_ROTATION} is zero and no on-screen Activity expresses a
          * preference, this rotation value will be used. Must be one of the
@@ -2372,8 +2378,8 @@ public final class Settings {
         public static final String POINTER_SPEED = "pointer_speed";
 
         /**
-         * Whether to link ringtone and notification volumes
-         * The value is boolean (1 or 0).
+         * Boolean value whether to link ringtone and notification volumes
+         * 
          * @hide
          */
         public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
@@ -2466,7 +2472,6 @@ public final class Settings {
 
         /**
          * Statusbar State
-         * The value is boolean (1 or 0).
          * @hide
          */
         public static final String EXPANDED_DESKTOP_STATE = "expanded_desktop_state";
@@ -2476,6 +2481,12 @@ public final class Settings {
          * @hide
          */
         public static final String PIE_MENU = "pie_menu";
+
+        /**
+         * Pie will not rotate. Should default to 0 (no, rotate)
+         * @hide
+         */
+        public static final String PIE_STICK = "pie_stick";
 
         /**
          * Center Pie? Should default to 1 (yes, center)
@@ -2536,14 +2547,12 @@ public final class Settings {
 
         /**	
          * Allows to show the background activity back the lockscreen
-         * The value is boolean (1 or 0).
          * @hide
          */
         public static final String LOCKSCREEN_SEE_THROUGH = "lockscreen_see_through";
 
         /**	
          * Allows lockscreen to be rotated
-         * The value is boolean (1 or 0).
          * @hide
          */
         public static final String LOCKSCREEN_ALLOW_ROTATION = "lockscreen_allow_rotation";
@@ -2566,6 +2575,18 @@ public final class Settings {
          * @hide
          */
         public static final String VOLBTN_MUSIC_CONTROLS = "volbtn_music_controls";
+        
+        /**
+         * Whether or not to launch default music player when headset is connected
+         * @hide
+         */
+        public static final String HEADSET_CONNECT_PLAYER = "headset_connect_player"; 
+        
+        /**
+         * Whether national data roaming should be used.
+         * @hide
+         */
+        public static final String MVNO_ROAMING = "mvno_roaming";
 
         /**	
          * Defines the shortcuts to be shown on lockscreen
@@ -2602,16 +2623,12 @@ public final class Settings {
 
         /**	
          * Whether to show or not clock on statusbar
-         * The value is boolean (1 or 0).
          * @hide
          */
         public static final String STATUS_BAR_SHOW_CLOCK = "status_bar_show_clock";
 
         /**	
          * AM/PM style on statusbar, either normal, small or gone.
-         *  0 = Normal
-         *  1 = Small
-         *  2 = Gone (default)
          * @hide
          */
         public static final String STATUS_BAR_AM_PM_STYLE = "status_bar_am_pm_style";
@@ -2657,6 +2674,12 @@ public final class Settings {
         * @hide
         */
         public static final String EXPANDED_RING_MODE = "expanded_ring_mode";
+
+        /**
+         * Weather to minimize lockscreen challenge on screen turned on
+         * @hide
+         */
+        public static final String LOCKSCREEN_MAXIMIZE_WIDGETS = "lockscreen_maximize_widgets";
 
         /**
          * Volume keys control cursor in text fields (default is 0)
