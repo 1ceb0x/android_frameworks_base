@@ -1483,9 +1483,6 @@ public class KeyguardHostView extends KeyguardViewBase {
 
         final View multiUserView = findViewById(R.id.keyguard_user_selector);
         if (multiUserView == null) {
-            Throwable t = new Throwable();
-            t.fillInStackTrace();
-            Log.e(TAG, "can't find user_selector in layout.", t);
             return;
         }
 
