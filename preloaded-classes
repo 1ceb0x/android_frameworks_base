@@ -1987,7 +1987,6 @@ java.util.concurrent.Executors$FinalizableDelegatedExecutorService
 java.util.concurrent.Future
 java.util.concurrent.FutureTask
 java.util.concurrent.FutureTask$WaitNode
-java.util.concurrent.FutureTask$Sync
 java.util.concurrent.LinkedBlockingQueue
 java.util.concurrent.LinkedBlockingQueue$Node
 java.util.concurrent.RejectedExecutionHandler
