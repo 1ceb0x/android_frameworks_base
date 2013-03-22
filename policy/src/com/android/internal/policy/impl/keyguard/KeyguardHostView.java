@@ -1471,13 +1471,10 @@ public class KeyguardHostView extends KeyguardViewBase {
         if (users == null) return;
 
         final View multiUserView = findViewById(R.id.keyguard_user_selector);
-<<<<<<< HEAD
         if (multiUserView == null) {
             return;
         }
-=======
         if (multiUserView == null) return;
->>>>>>> upstream/jellybean
 
         if (users.size() > 1) {
             if (multiUserView instanceof KeyguardMultiUserSelectorView) {
